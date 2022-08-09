@@ -16,6 +16,8 @@ $err = "";
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (empty(trim($_POST['username'])) || empty(trim($_POST['password']))) {
         $err = "Please enter username + password";
+        $alert = "<script type='text/javascript'>alert('Please Enter Username and Password');</script>";
+        echo $alert;
     } else {
         $username = trim($_POST['username']);
         $password = trim($_POST['password']);
@@ -44,6 +46,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
                         //Redirect user to welcome page
                         header("location: welcome.php");
+                    } else {
+                        $alert = "<script type='text/javascript'>alert('Please Enter Correct Password');</script>";
+                        echo $alert;
                     }
                 }
             }
@@ -80,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         .col-lg-5 img {
             margin-left: -12px;
-            
+
         }
 
         .row {

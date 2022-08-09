@@ -10,7 +10,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     // Check if username is empty
     if (empty(trim($_POST["username"]))) {
-        $username_err = "Username cannot be blank";
+        $username_err = "Email id cannot be blank";
+        $alert = "<script type='text/javascript'>alert('Please enter Email ID');</script>";
+        echo $alert;
     } else {
         $sql = "SELECT id FROM users WHERE username = ?";
         $stmt = mysqli_prepare($conn, $sql);
@@ -25,6 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 mysqli_stmt_store_result($stmt);
                 if (mysqli_stmt_num_rows($stmt) == 1) {
                     $username_err = "This username is already taken";
+                    $alert = "<script type='text/javascript'>alert('Sorry , This Email is already registered. Please Log IN');</script>";
+        echo $alert;
                 } else {
                     $username = trim($_POST['username']);
                 }
@@ -40,8 +44,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     // Check for password
     if (empty(trim($_POST['password']))) {
         $password_err = "Password cannot be blank";
+        $alert = "<script type='text/javascript'>alert('Please Enter a Password');</script>";
+        echo $alert;
     } elseif (strlen(trim($_POST['password'])) < 5) {
         $password_err = "Password cannot be less than 5 characters";
+        $alert = "<script type='text/javascript'>alert('Length of Password must be greater than 4');</script>";
+        echo $alert;
     } else {
         $password = trim($_POST['password']);
     }
@@ -49,11 +57,15 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     // Check for confirm password field
     if (trim($_POST['password']) !=  trim($_POST['confirm_password'])) {
         $password_err = "Passwords should match";
+        $alert = "<script type='text/javascript'>alert('Entered Password and Confirm Password must be same');</script>";
+        echo $alert;
     }
 
     //Check where the first name and last name is empty
     if (empty(trim($_POST['firstname'])) || empty(trim($_POST['lastname']))) {
         $firstname_err = $lastname_err = "Name cannot be empty";
+        $alert = "<script type='text/javascript'>alert('First Name and Last Name cannot be Empty');</script>";
+        echo $alert;
     } else {
         $firstname = $_POST['firstname'];
         $lastname = $_POST['lastname'];
@@ -81,13 +93,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             }
         }
         mysqli_stmt_close($stmt);
-    } else {
-?>
-        <script type="text/javascript">
-            alert("Please Try Again");
-        </script>
-<?php
     }
+    
     mysqli_close($conn);
 }
 
@@ -121,8 +128,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         }
 
         .col-lg-5 img {
-            margin-left:-12px;
-            height: 86vh;
+            margin-left: -12px;
+            height: 80vh;
         }
 
         .row {
@@ -203,11 +210,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                     <input type="text" name="lastname" class="form-control my-3 p-3" id="inputlastname" placeholder="Last Name">
                                 </div>
                             </div>
-                            <div class="form-row">
+                            <!-- <div class="form-row">
                                 <div class="col-lg-7">
                                     <input type="tel" name="phoneno" class="form-control my-3 p-3" id="inputphone" placeholder="Phone No.">
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="form-row">
                                 <div class="col-lg-7">
                                     <input type="email" class="form-control my-3 p-3" name="username" id="inputEmail4" placeholder="Email">
